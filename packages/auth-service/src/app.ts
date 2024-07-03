@@ -10,7 +10,7 @@ import cors from "cors";
 
 const app = express();
 
-// Configure CORS
+// Configure CORSs
 app.use(
   cors({
     origin: getConfig().apiGateway,
