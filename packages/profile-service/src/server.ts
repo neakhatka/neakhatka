@@ -13,7 +13,7 @@ async function run() {
     // Activate Logger
     logInit({ env: process.env.NODE_ENV, logLevel: config.logLevel });
 
-    // Activate Database
+    // Activate Database!
     const mongodb = ConnectToMongoDB.getInstance();
     await mongodb.connectMongoDB({ url: config.monogourl! });
     // Start Server
@@ -26,3 +26,4 @@ async function run() {
 }
 
 run();
+ 
