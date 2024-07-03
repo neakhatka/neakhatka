@@ -23,7 +23,7 @@ app.use(
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "200mb" }));
 
-// Serve static files
+// Serve static files!
 app.use(express.static("public"));
 
 // this route that you can view api document and you need to install swagger-express-ui and generate it in tsoa

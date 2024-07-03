@@ -23,7 +23,7 @@ function run() {
             const config = (0, config_1.default)(process.env.NODE_ENV);
             // Activate Logger
             (0, logger_1.logInit)({ env: process.env.NODE_ENV, logLevel: config.logLevel });
-            // Activate Database
+            // Activate Database!
             const mongodb = userdatabase_1.ConnectToMongoDB.getInstance();
             yield mongodb.connectMongoDB({ url: config.monogourl });
             // Start Server

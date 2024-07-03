@@ -15,7 +15,7 @@ export const privatekey = fs.readFileSync(
 
 async function run() {
   try {
-    // Activate Logger!
+    // Activate Logger
     logInit({ env: process.env.NODE_ENV, logLevel: process.env.logLevel });
 
     // const congig = getConfig(process.env.NODE_ENV)
