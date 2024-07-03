@@ -56,8 +56,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            mkdir -p /home/ubuntu
-            chown ubuntu:ubuntu /home/ubuntu
+            mkdir -p /home/ubuntu/packages/auth-service/build
+            chown ubuntu:ubuntu /home/ubuntu/packages/auth-service/build
 
       - name: Copy files to EC2
         uses: appleboy/scp-action@master
@@ -67,7 +67,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           source: "packages/auth-service/build/*"
-          target: "/home/ubuntu"
+          target: "/home/ubuntu/packages/auth-service/build"
 
       - name: Create .env file
         uses: appleboy/ssh-action@master
@@ -87,10 +87,21 @@ jobs:
             RABBITMQ_ENDPOINT=${{ secrets.RABBITMQ_ENDPOINT }}
             USER_SERVICE_URL=${{ secrets.USER_SERVICE_URL }}
             AUTH_SERVICE_URL=${{ secrets.AUTH_SERVICE_URL }}
-            COMPANY_SERVICE_URL=${{ secrets.COMPANY_SERVICE_URL}}
+            COMPANY_SERVICE_URL=${{ secrets.COMPANY_SERVICE_URL }}
+            MONGODB_URL=${{ secrets.MONGODB_PROFILE_URL }}
             API_GATEWAY=${{ secrets.API_GATEWAY }}
             JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}
             EOF
+
+      - name: Create private_key.pem file
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_IP }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            echo "${{ secrets.PRIVATE_KEY }}" > /home/ubuntu/packages/auth-service/build/private_key.pem
 
       - name: Start
         uses: appleboy/ssh-action@master
@@ -113,6 +124,3 @@ jobs:
               echo "Application is not running. Starting..."
               yarn start
             fi
-
-
-

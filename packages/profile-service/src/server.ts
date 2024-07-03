@@ -19,9 +19,11 @@ async function run() {
     // Start Server
     app.listen(config.port, () => {
       logger.info(`Server is listening on port: ${config.port}`);
+      console.log(`Server is listening on port: ${config.port}`);
     });
   } catch (error) {
     logger.info("Error", error);
+    console.log(error);
   }
 }
 

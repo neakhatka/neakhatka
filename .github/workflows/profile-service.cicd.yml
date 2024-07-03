@@ -85,9 +85,7 @@ jobs:
             CLIENT_URL=${{ secrets.CLIENT_URL }}
             LOG_LEVEL=${{ secrets.LOG_LEVEL }}
             RABBITMQ_ENDPOINT=${{ secrets.RABBITMQ_ENDPOINT }}
-            USER_SERVICE_URL=${{ secrets.USER_SERVICE_URL }}
-            AUTH_SERVICE_URL=${{ secrets.AUTH_SERVICE_URL }}
-            COMPANY_SERVICE_URL=${{ secrets.COMPANY_SERVICE_URL}}
+            AUTH_SERVICE=${{ secrets.AUTH_SERVICE_URL }}
             MONGODB_URL=${{ secrets.MONGODB_PROFILE_URL }}
             API_GATEWAY=${{ secrets.API_GATEWAY }}
             EOF
