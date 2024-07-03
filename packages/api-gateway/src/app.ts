@@ -13,7 +13,7 @@ import getConfig from "./utils/createCofig";
 import { RegisterRoutes } from "./routes/routs";
 import { verifyUser } from "./middleware/auth-middleware";
 import unless from "./middleware/unless-route";
-import cookieParser from 'cookie-parser';
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -79,15 +79,10 @@ RegisterRoutes(app);
 // ===================
 
 // Conditions array
-// const conditions = [
-//   { path: "/v1/auth" },                 // Exclude all routes starting with /v1/auth
-//   { path: "/v1/jobs", method: "GET" }, // Exclude GET requests starting with /v1/jobs
-//   { path: "/v1/jobs/:id", method: "GET" },
-// ];
 const conditions = [
   { path: /^\/v1\/auth/ }, // Exclude all routes starting with /v1/auth
   { path: /^\/v1\/jobs$/, method: "GET" }, // Exclude GET requests to /v1/jobs
-  { path: /^\/v1\/jobs\/.+/ , method:"GET" }, // Exclude all routes starting with /v1/users/ followed by any character
+  { path: /^\/v1\/jobs\/.+/, method: "GET" }, // Exclude all routes starting with /v1/users/ followed by any character
 ];
 app.use(unless(conditions, verifyUser));
 
