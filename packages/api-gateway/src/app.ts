@@ -87,7 +87,7 @@ const conditions = [
 app.use(unless(conditions, verifyUser));
 
 // ===================
-// Proxy Routes
+// Proxy Route
 // ===================
 applyProxy(app);
 
