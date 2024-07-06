@@ -18,7 +18,7 @@ async function run() {
     // Activate Logger
     logInit({ env: process.env.NODE_ENV, logLevel: process.env.logLevel });
 
-    // const congig = getConfig(process.env.NODE_ENV)
+    // const congig = getConfig(process.env.NODE_ENV)!
     authChannel = (await createQueueConnection()) as Channel;
     connectMongoDB();
 
