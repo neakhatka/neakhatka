@@ -125,3 +125,5 @@ build
 .terraform
 terraform.tfstate.backup
 terraform.tfstate
+# docker compose dev
+docker-compose.dev.yaml

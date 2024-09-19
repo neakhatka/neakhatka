@@ -9,7 +9,6 @@ COPY src ./src
 COPY public_key.pem ./
 # Copy .env file from configs directory
 # Copy public_key.pem
-
 # Install dependencies and nodemon
 RUN npm install && npm install -g nodemon
 
