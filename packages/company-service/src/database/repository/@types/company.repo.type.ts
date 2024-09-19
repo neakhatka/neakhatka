@@ -6,13 +6,13 @@ export interface companycreateschema {
 }
   export interface companyupdateschema {
   companyname?: string;
-  logo?: string;
+  logo?: Buffer;
   contactphone?: string;
   websiteLink?: string;
   location?: string;
   contactemail?: string;
   contactperson?: string;
-  numberOfemployees?: number;
+  numberOfemployees?: string;
   address?: string;
   companydescription?: string;
 }

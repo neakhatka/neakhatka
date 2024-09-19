@@ -3,7 +3,7 @@
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { TsoaRoute, fetchMiddlewares, ExpressTemplateService } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { Health } from '@api-gateway/controllers/health.controller';
+import { Health } from './../../controllers/health.controller';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
 
 
@@ -25,7 +25,7 @@ export function RegisterRoutes(app: Router) {
             ...(fetchMiddlewares<RequestHandler>(Health)),
             ...(fetchMiddlewares<RequestHandler>(Health.prototype.checkHealth)),
 
-            function Health_checkHealth(request: ExRequest, response: ExResponse, next: any) {
+            async function Health_checkHealth(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
             };
 
@@ -37,7 +37,7 @@ export function RegisterRoutes(app: Router) {
 
                 const controller = new Health();
 
-              templateService.apiHandler({
+              await templateService.apiHandler({
                 methodName: 'checkHealth',
                 controller,
                 response,

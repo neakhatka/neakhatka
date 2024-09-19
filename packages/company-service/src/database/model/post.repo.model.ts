@@ -1,5 +1,6 @@
 
 import mongoose, { Schema, model } from "mongoose";
+
 const postingSchema: Schema = new Schema(
   {
     companyId: {
@@ -7,6 +8,7 @@ const postingSchema: Schema = new Schema(
       ref: "companymodels",
       required: false,
     },
+    logo:{ type: String, required: false, default:"" },
     companyName: { type: String, required: false },
     workplace: { type: String, required: false },
     position:{type :String , required: false},
@@ -16,14 +18,14 @@ const postingSchema: Schema = new Schema(
     startDate: { type: String, required: true },
     endDate: { type: String, required: true },
     salary: { type: String, required: false, default: [] },
-    totalEmployees: { type: Number, required: false, default: 0 },
+    totalEmployees: { type: String, required: false, default: 0 },
     time: {
       type: String,
       enum: ["full-time", "part-time"],
       required: true,
     },
     duration: { type: String, required: false, default: "" },
-    availablePositions: { type: Number, required: false, default: 0 },
+    availablePositions: { type: String, required: false, default: 0 },
     gender: {
       type: String,
       enum: ["male", "female", "other"],

@@ -1,16 +1,21 @@
 import { logInit, logger } from "./utils/logger";
 import app from "./app";
 import getConfig from "./utils/createCofig";
-import fs from 'fs';
+import fs from "fs";
 import path from "path";
 
 // READ FILE JWT PUBLIC KEY FIRST
-export const publicKey = fs.readFileSync(path.join(__dirname, "../public_key.pem"), 'utf-8')
+export const publicKey = fs.readFileSync(
+  path.join(__dirname, "../public_key.pem"),
+  "utf-8"
+);
+
 
 // RUN THE SERVER
 async function run() {
   try {
     const config = getConfig();
+    console.log('Hello server')
 
     // Activate Logger
     logInit({ env: process.env.NODE_ENV, logLevel: config.logLevel });
@@ -19,6 +24,8 @@ async function run() {
     logger.info(`Gateway server has started with process id ${process.pid}`);
 
     const server = app.listen(config.port, () => {
+      console.log("############ Server is running on port " + 3000);
+
       logger.info(`Gateway server is listening on port: ${config.port}`);
     });
 

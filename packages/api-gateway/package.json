@@ -33,7 +33,7 @@
     "http-proxy-middleware": "^3.0.0",
     "joi": "^17.13.0",
     "jsonwebtoken": "^9.0.2",
-    "tsoa": "^6.2.0",
+    "tsoa": "^6.3.1",
     "typescript-transform-paths": "^3.4.7",
     "winston": "^3.13.0"
   },

@@ -14,7 +14,7 @@ export interface createuser {
 }
 
 export interface updateuser{
-    profile?: string;
+    profile?: Buffer;
     fullname?: string;
     email?: string;
     contactphone?: string;

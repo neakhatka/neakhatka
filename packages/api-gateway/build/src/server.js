@@ -19,7 +19,8 @@ const createCofig_1 = __importDefault(require("./utils/createCofig"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 // READ FILE JWT PUBLIC KEY FIRST
-exports.publicKey = fs_1.default.readFileSync(path_1.default.join(__dirname, "../public_key.pem"), 'utf-8');
+exports.publicKey = fs_1.default.readFileSync(path_1.default.join(__dirname, "../public_key.pem"), "utf-8");
+console.log("############ Server is running on port " + 3000);
 // RUN THE SERVER
 function run() {
     return __awaiter(this, void 0, void 0, function* () {

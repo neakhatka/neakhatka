@@ -59,6 +59,16 @@ jobs:
             mkdir -p /home/ubuntu
             chown ubuntu:ubuntu /home/ubuntu
 
+      - name: Upload private_key.pem
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_IP }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: "packages/auth-service/private_key.pem"
+          target: "/home/ubuntu"
+
       - name: Copy files to EC2
         uses: appleboy/scp-action@master
         with:
@@ -113,6 +123,3 @@ jobs:
               echo "Application is not running. Starting..."
               yarn start
             fi
-
-
-

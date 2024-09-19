@@ -5,6 +5,8 @@ import { TsoaRoute, fetchMiddlewares, ExpressTemplateService } from '@tsoa/runti
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { UserController } from './../../controller/usercontroller/userProfile-Controller';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
+const multer = require('multer');
+const upload = multer({"limits":{"fileSize":8388608}});
 
 
 
@@ -34,7 +36,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "_id": {"dataType":"string"},
             "authid": {"dataType":"string"},
-            "profile": {"dataType":"string"},
+            "profile": {"dataType":"buffer"},
             "fullname": {"dataType":"string","required":true},
             "email": {"dataType":"string","required":true},
             "contactphone": {"dataType":"string"},
@@ -46,23 +48,6 @@ const models: TsoaRoute.Models = {
             "educationbackground": {"dataType":"string"},
             "favorite": {"dataType":"array","array":{"dataType":"string"}},
             "createdAt": {"dataType":"datetime"},
-        },
-        "additionalProperties": true,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "updateuser": {
-        "dataType": "refObject",
-        "properties": {
-            "profile": {"dataType":"string"},
-            "fullname": {"dataType":"string"},
-            "email": {"dataType":"string"},
-            "contactphone": {"dataType":"string"},
-            "gender": {"dataType":"string"},
-            "location": {"dataType":"string"},
-            "DOB": {"dataType":"string"},
-            "nationality": {"dataType":"string"},
-            "address": {"dataType":"string"},
-            "educationbackground": {"dataType":"string"},
         },
         "additionalProperties": true,
     },
@@ -167,13 +152,23 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.put('/v1/users/profile',
+            upload.fields([{"name":"profile"}]),
             ...(fetchMiddlewares<RequestHandler>(UserController)),
             ...(fetchMiddlewares<RequestHandler>(UserController.prototype.UpdateProfile)),
 
             async function UserController_UpdateProfile(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    update: {"in":"body","name":"update","required":true,"ref":"updateuser"},
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
+                    fullname: {"in":"formData","name":"fullname","required":true,"dataType":"string"},
+                    email: {"in":"formData","name":"email","required":true,"dataType":"string"},
+                    contactphone: {"in":"formData","name":"contactphone","dataType":"string"},
+                    gender: {"in":"formData","name":"gender","dataType":"string"},
+                    location: {"in":"formData","name":"location","dataType":"string"},
+                    DOB: {"in":"formData","name":"DOB","dataType":"string"},
+                    nationality: {"in":"formData","name":"nationality","dataType":"string"},
+                    address: {"in":"formData","name":"address","dataType":"string"},
+                    educationbackground: {"in":"formData","name":"educationbackground","dataType":"string"},
+                    profile: {"in":"formData","name":"profile","dataType":"file"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -221,6 +216,98 @@ export function RegisterRoutes(app: Router) {
                 next,
                 validatedArgs,
                 successStatus: 204,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/v1/users/profile/:jobid',
+            ...(fetchMiddlewares<RequestHandler>(UserController)),
+            ...(fetchMiddlewares<RequestHandler>(UserController.prototype.AddFavorites)),
+
+            async function UserController_AddFavorites(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    jobid: {"in":"path","name":"jobid","required":true,"dataType":"string"},
+                    req: {"in":"request","name":"req","required":true,"dataType":"object"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new UserController();
+
+              await templateService.apiHandler({
+                methodName: 'AddFavorites',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/v1/users/profile/jobs',
+            ...(fetchMiddlewares<RequestHandler>(UserController)),
+            ...(fetchMiddlewares<RequestHandler>(UserController.prototype.GetFavorite)),
+
+            async function UserController_GetFavorite(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    req: {"in":"request","name":"req","required":true,"dataType":"object"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new UserController();
+
+              await templateService.apiHandler({
+                methodName: 'GetFavorite',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.delete('/v1/users/profile/:jobid',
+            ...(fetchMiddlewares<RequestHandler>(UserController)),
+            ...(fetchMiddlewares<RequestHandler>(UserController.prototype.DeleteFavorites)),
+
+            async function UserController_DeleteFavorites(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    jobid: {"in":"path","name":"jobid","required":true,"dataType":"string"},
+                    req: {"in":"request","name":"req","required":true,"dataType":"object"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new UserController();
+
+              await templateService.apiHandler({
+                methodName: 'DeleteFavorites',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
               });
             } catch (err) {
                 return next(err);

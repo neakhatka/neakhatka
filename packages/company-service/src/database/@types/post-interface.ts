@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 export interface IpostDocument {
   companyId?: mongoose.Schema.Types.ObjectId;
+  logo?: string;
   companyName?: string;
   workplace?: string;
   position?: string;
@@ -11,10 +12,10 @@ export interface IpostDocument {
   startDate: string;
   endDate: string;
   salary?: string;
-  totalEmployees?: number;
+  totalEmployees?: string;
   time: "full-time" | "part-time";
   duration?: string;
-  availablePositions?: number;
+  availablePositions?: string;
   gender: string;
   createdAt: Date;
 }

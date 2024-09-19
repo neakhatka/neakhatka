@@ -2,12 +2,18 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 function unless(conditions, middleware) {
     return (req, res, next) => {
-        const shouldskip = conditions.some((conditions) => {
-            const pathMatches = req.path.startsWith(conditions.path);
-            const methodMatches = !conditions.method || req.method === conditions.method;
+        const shouldSkip = conditions.some((condition) => {
+            const pathMatches = typeof condition.path === "string"
+                ? req.path.startsWith(condition.path)
+                : condition.path.test(req.path); // Use RegExp test method if path is a regex
+            console.log(`Request#####`, pathMatches);
+            console.log(`Request#####`, req.path);
+            const methodMatches = !condition.method || req.method === condition.method;
+            console.log(`Request#####`, methodMatches);
             return pathMatches && methodMatches;
         });
-        if (shouldskip) {
+        console.log(`Request#####`, shouldSkip);
+        if (shouldSkip) {
             return next();
         }
         else {

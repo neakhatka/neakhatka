@@ -21,7 +21,7 @@ class UserService {
     constructor() {
         this.userRepo = new userProfileRepo_1.default();
     }
-    createuser(UserDetail) {
+    CreateUser(UserDetail) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const User = yield this.userRepo.createuser(UserDetail);
@@ -91,6 +91,43 @@ class UserService {
                 // throw error;
                 logger_1.logger.error(`UserProfileService DeleteProfileService() method error: ${error}`);
                 throw new api_error_1.default("Unable to delete User profile");
+            }
+        });
+    }
+    // =======================
+    //  ABOUT FAVORITE JOB
+    //======================
+    AddFavoriteJobPost(userId, jobId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield this.userRepo.findById({ id: userId });
+                if (!user) {
+                    throw new api_error_1.default("User not found");
+                }
+                if (!user.favorite) {
+                    user.favorite = [];
+                }
+                if (!user.favorite.includes(jobId)) {
+                    user.favorite.push(jobId);
+                    yield user.save();
+                }
+                return { message: "Favorite", data: user.favorite };
+            }
+            catch (error) {
+                console.log(error);
+                throw new api_error_1.default("Unable to add favorite job post");
+            }
+        });
+    }
+    // DELETE FAVORITE JOB
+    RemovequetJobPost(userId, jobId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield this.userRepo.RemoveFavoriteJob(userId, jobId);
+            }
+            catch (error) {
+                console.log("error on delete favorite jon in user service:", error);
+                throw new api_error_1.default("Unable to remove favorite");
             }
         });
     }

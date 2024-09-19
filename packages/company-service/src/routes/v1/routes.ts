@@ -7,6 +7,8 @@ import { PostJob } from './../../controller/post.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { CompanyController } from './../../controller/company.controller';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
+const multer = require('multer');
+const upload = multer({"limits":{"fileSize":8388608}});
 
 
 
@@ -16,6 +18,7 @@ const models: TsoaRoute.Models = {
     "postcreateschema": {
         "dataType": "refObject",
         "properties": {
+            "logo": {"dataType":"string","required":true},
             "companyName": {"dataType":"string"},
             "workplace": {"dataType":"string"},
             "position": {"dataType":"string"},
@@ -25,10 +28,10 @@ const models: TsoaRoute.Models = {
             "startDate": {"dataType":"string"},
             "endDate": {"dataType":"string"},
             "salary": {"dataType":"string"},
-            "totalEmployees": {"dataType":"double"},
+            "totalEmployees": {"dataType":"string"},
             "time": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["full-time"]},{"dataType":"enum","enums":["part-time"]}]},
             "duration": {"dataType":"string"},
-            "availablePositions": {"dataType":"double"},
+            "availablePositions": {"dataType":"string"},
             "gender": {"dataType":"string"},
         },
         "additionalProperties": true,
@@ -37,6 +40,7 @@ const models: TsoaRoute.Models = {
     "postupdateschema": {
         "dataType": "refObject",
         "properties": {
+            "logo": {"dataType":"string"},
             "companyName": {"dataType":"string"},
             "workplace": {"dataType":"string"},
             "position": {"dataType":"string"},
@@ -46,10 +50,10 @@ const models: TsoaRoute.Models = {
             "startDate": {"dataType":"string"},
             "endDate": {"dataType":"string"},
             "salary": {"dataType":"string"},
-            "totalEmployees": {"dataType":"double"},
+            "totalEmployees": {"dataType":"string"},
             "time": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["full-time"]},{"dataType":"enum","enums":["part-time"]}]},
             "duration": {"dataType":"string"},
-            "availablePositions": {"dataType":"double"},
+            "availablePositions": {"dataType":"string"},
             "gender": {"dataType":"string"},
         },
         "additionalProperties": true,
@@ -60,23 +64,6 @@ const models: TsoaRoute.Models = {
         "properties": {
             "companyname": {"dataType":"string","required":true},
             "contactemail": {"dataType":"string","required":true},
-        },
-        "additionalProperties": true,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "companyupdateschema": {
-        "dataType": "refObject",
-        "properties": {
-            "companyname": {"dataType":"string"},
-            "logo": {"dataType":"string"},
-            "contactphone": {"dataType":"string"},
-            "websiteLink": {"dataType":"string"},
-            "location": {"dataType":"string"},
-            "contactemail": {"dataType":"string"},
-            "contactperson": {"dataType":"string"},
-            "numberOfemployees": {"dataType":"double"},
-            "address": {"dataType":"string"},
-            "companydescription": {"dataType":"string"},
         },
         "additionalProperties": true,
     },
@@ -127,7 +114,6 @@ export function RegisterRoutes(app: Router) {
             async function PostJob_GetPost(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     id: {"in":"path","name":"id","required":true,"dataType":"string"},
-                    req: {"in":"request","name":"req","required":true,"dataType":"object"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -365,13 +351,23 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.put('/v1/companies/profile',
+            upload.fields([{"name":"logo","maxCount":1,"multiple":false}]),
             ...(fetchMiddlewares<RequestHandler>(CompanyController)),
             ...(fetchMiddlewares<RequestHandler>(CompanyController.prototype.UpdateCompany)),
 
             async function CompanyController_UpdateCompany(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
-                    update: {"in":"body","name":"update","required":true,"ref":"companyupdateschema"},
+                    companyname: {"in":"formData","name":"companyname","required":true,"dataType":"string"},
+                    contactphone: {"in":"formData","name":"contactphone","required":true,"dataType":"string"},
+                    websiteLink: {"in":"formData","name":"websiteLink","required":true,"dataType":"string"},
+                    location: {"in":"formData","name":"location","required":true,"dataType":"string"},
+                    contactemail: {"in":"formData","name":"contactemail","required":true,"dataType":"string"},
+                    contactperson: {"in":"formData","name":"contactperson","required":true,"dataType":"string"},
+                    numberOfemployees: {"in":"formData","name":"numberOfemployees","required":true,"dataType":"string"},
+                    address: {"in":"formData","name":"address","required":true,"dataType":"string"},
+                    companydescription: {"in":"formData","name":"companydescription","required":true,"dataType":"string"},
+                    logo: {"in":"formData","name":"logo","dataType":"file"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

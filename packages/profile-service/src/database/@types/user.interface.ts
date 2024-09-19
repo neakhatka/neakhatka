@@ -1,7 +1,7 @@
 export interface IUserDocument {
   _id?: string;
   authid?: string;
-  profile?: string;
+  profile?: Buffer;
   fullname: string;
   email: string;
   contactphone?: string;
@@ -12,5 +12,6 @@ export interface IUserDocument {
   address?: string;
   educationbackground?: string;
   favorite?: string[];
+  removeFavorite(jobid: string): Promise<string>;
   createdAt?: Date;
 }

@@ -2,18 +2,29 @@ import { NextFunction, Request, Response } from "express";
 
 // Middleware to conditionally apply another middleware unless the route matches a specific path
 interface Conditions {
-  path: string;
+  path: RegExp | string;
   method?: string;
 }
 export default function unless(conditions: Conditions[], middleware: Function) {
   return (req: Request, res: Response, next: NextFunction) => {
-    const shouldskip = conditions.some((conditions) => {
-      const pathMatches = req.path.startsWith(conditions.path);
+    const shouldSkip = conditions.some((condition) => {
+      const pathMatches =
+        typeof condition.path === "string"
+          ? req.path.startsWith(condition.path)
+          : condition.path.test(req.path); // Use RegExp test method if path is a regex
+      console.log(`Request#####`, pathMatches);
+      console.log(`Request#####`, req.path);
+
       const methodMatches =
-        !conditions.method || req.method === conditions.method;
+        !condition.method || req.method === condition.method;
+      console.log(`Request#####`, methodMatches);
+
       return pathMatches && methodMatches;
     });
-    if (shouldskip) {
+
+    console.log(`Request#####`, shouldSkip);
+
+    if (shouldSkip) {
       return next();
     } else {
       middleware(req, res, next);

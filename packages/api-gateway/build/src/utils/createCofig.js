@@ -21,7 +21,6 @@ function createConfig(configPath) {
         "AUTH_SERVICE_URL",
         "USER_SERVICE_URL",
         "COMPANY_SERVICE_URL",
-        "NOTIFICATION_SERVICE_URL",
     ];
     const missingConfig = requiredConfig.filter((key) => !process.env[key]);
     if (missingConfig.length > 0) {
@@ -39,7 +38,6 @@ function createConfig(configPath) {
         authServiceUrl: process.env.AUTH_SERVICE_URL,
         userServiceUrl: process.env.USER_SERVICE_URL,
         companyserviceurl: process.env.COMPANY_SERVICE_URL,
-        notificationUrl: process.env.NOTIFICATION_SERVICE_URL,
     };
 }
 const getConfig = (currentEnv = "development") => {

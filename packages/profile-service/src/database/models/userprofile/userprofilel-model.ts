@@ -1,10 +1,11 @@
-import mongoose, { Schema, model } from "mongoose";
+import { Schema, model } from "mongoose";
+import { IUserDocument } from "../../@types/user.interface";
 
 const userschema: Schema = new Schema(
   {
-    profile: { type: String, required: false, default: "" },
+    profile: { type: Buffer, required: false, default: "" },
     authid: { type: String, required: false, default: "" },
-    fullname: { type: String, required: true, default: ""  },
+    fullname: { type: String, required: true, default: "" },
     // lastName: { type: String, required: true },
     email: {
       type: String,
@@ -20,7 +21,7 @@ const userschema: Schema = new Schema(
     nationality: { type: String, required: false, default: "" },
     address: { type: String, required: false, default: "" },
     educationbackground: { type: String, required: false, default: "" },
-    favorite: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
+    favorite: [{ type: String, default: [] }],
   },
   {
     versionKey: false,
@@ -28,6 +29,10 @@ const userschema: Schema = new Schema(
   }
 );
 
-const seeker_profile = model("seeker_profile", userschema);
+userschema.methods.removeFavorite = function (jobid: string) {
+  return this.updateOne({ $pull: { favorite: jobid } });
+};
+
+const seeker_profile = model<IUserDocument>("seeker_profile", userschema);
 
 export { seeker_profile };

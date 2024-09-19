@@ -32,7 +32,6 @@ class PostService {
     try {
       return await this.postrepo.FindById({ id });
     } catch (error) {
-      console.log(error);
       throw new APIError("Unable to get post job with this ID");
     }
   }

@@ -1,6 +1,6 @@
 import { logger, logInit } from "./util/logger";
 import { Channel } from "amqplib";
-import { ConnectToMongoDB } from "./database/connectBD/conneed.DB";
+import { ConnectToMongoDB } from "./database/connectDB/conneed.DB";
 import getConfig from "./util/config";
 import app from "./app";
 
@@ -10,7 +10,7 @@ async function run() {
   try {
     const config = getConfig(process.env.NODE_ENV);
 
-    // Activate Logger
+    // Activate Logger!
     logInit({ env: process.env.NODE_ENV, logLevel: config.logLevel });
 
     // Activate Database
@@ -24,5 +24,4 @@ async function run() {
     logger.info("Error", error);
   }
 }
-
 run();

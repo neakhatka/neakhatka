@@ -12,7 +12,7 @@ export class UserService {
   constructor() {
     this.userRepo = new UserRepository();
   }
-  async createuser(UserDetail: createuser) {
+  async CreateUser(UserDetail: createuser) {
     try {
       const User = await this.userRepo.createuser(UserDetail);
       return User;
@@ -78,6 +78,44 @@ export class UserService {
         `UserProfileService DeleteProfileService() method error: ${error}`
       );
       throw new APIError("Unable to delete User profile");
+    }
+  }
+
+  // =======================
+  //  ABOUT FAVORITE JOB
+  //======================
+  async AddFavoriteJobPost(
+    userId: string,
+    jobId: string
+  ): Promise<{ message: string; data: any }> {
+    try {
+      const user = await this.userRepo.findById({ id: userId });
+      if (!user) {
+        throw new APIError("User not found");
+      }
+
+      if (!user.favorite) {
+        user.favorite = [];
+      }
+
+      if (!user.favorite.includes(jobId)) {
+        user.favorite.push(jobId);
+        await user.save();
+      }
+
+      return { message: "Favorite", data: user.favorite };
+    } catch (error) {
+      console.log(error);
+      throw new APIError("Unable to add favorite job post");
+    }
+  }
+  // DELETE FAVORITE JOB
+  async RemovequetJobPost(userId: string, jobId: string) {
+    try {
+      return await this.userRepo.RemoveFavoriteJob(userId,jobId)
+    } catch (error) {
+    console.log("error on delete favorite jon in user service:",error)
+    throw new APIError("Unable to remove favorite");
     }
   }
 }

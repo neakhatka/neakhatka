@@ -37,7 +37,7 @@ let UserController = class UserController extends tsoa_1.Controller {
             console.log("Recived data", requestBody);
             try {
                 const userService = new userProfileService_1.UserService();
-                const userProfile = yield userService.createuser(requestBody);
+                const userProfile = yield userService.CreateUser(requestBody);
                 return userProfile;
             }
             catch (error) {
@@ -83,9 +83,33 @@ let UserController = class UserController extends tsoa_1.Controller {
         });
     }
     // update user
-    UpdateProfile(update, req) {
+    UpdateProfile(req, fullname, email, contactphone, gender, location, DOB, nationality, address, educationbackground, profile) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log("Received data", {
+                fullname,
+                email,
+                contactphone,
+                gender,
+                location,
+                DOB,
+                nationality,
+                address,
+                educationbackground,
+                profile,
+            });
             try {
+                const update = {
+                    profile: profile ? Buffer.from(profile.buffer) : undefined,
+                    fullname,
+                    email,
+                    contactphone,
+                    gender,
+                    location,
+                    DOB,
+                    nationality,
+                    address,
+                    educationbackground,
+                };
                 const userId = req.seeker.id;
                 const userservice = new userProfileService_1.UserService();
                 const user = yield userservice.FindByAuthId({ userId });
@@ -125,6 +149,68 @@ let UserController = class UserController extends tsoa_1.Controller {
             }
         });
     }
+    // ==========================
+    // ACTION  FOR FAVORITE JOB
+    // ==========================
+    AddFavorites(jobid, req) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const userId = req.seeker.id;
+                const userservice = new userProfileService_1.UserService();
+                const user = yield userservice.FindByAuthId({ userId });
+                const addfavorite = yield userservice.AddFavoriteJobPost(user._id, jobid);
+                if (addfavorite) {
+                    return { message: "Successfully added favorite", data: null };
+                }
+                else {
+                    return { message: "Profile Not Found", data: null };
+                }
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+    }
+    GetFavorite(req) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const userId = req.seeker.id;
+                console.log("Userid:", userId);
+                const userservice = new userProfileService_1.UserService();
+                const user = yield userservice.FindByAuthId({ userId });
+                if (!user) {
+                    return { message: "Profile Not Found", data: null };
+                }
+                else {
+                    return { message: "Found", data: user.favorite };
+                }
+                console.log("User:", user);
+            }
+            catch (error) {
+                console.error(error);
+                throw error;
+            }
+        });
+    }
+    DeleteFavorites(jobid, req) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const userId = req.seeker.id;
+                const userservice = new userProfileService_1.UserService();
+                const user = yield userservice.FindByAuthId({ userId });
+                if (user) {
+                    yield userservice.RemovequetJobPost(user._id, jobid);
+                    return { message: "Favorite job deleted successfully", data: null };
+                }
+                else {
+                    return { message: "Favorite job can not delete", data: null };
+                }
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+    }
 };
 exports.UserController = UserController;
 __decorate([
@@ -155,10 +241,19 @@ __decorate([
     (0, tsoa_1.Middlewares)((0, authmiddleware_1.authorize)(["seeker"])),
     (0, tsoa_1.Put)(useProfile_Route_1.default.PROFILE.UPDATE),
     (0, tsoa_1.SuccessResponse)(status_code_1.StatusCode.OK, "Successfully Update profile"),
-    __param(0, (0, tsoa_1.Body)()),
-    __param(1, (0, tsoa_1.Request)()),
+    __param(0, (0, tsoa_1.Request)()),
+    __param(1, (0, tsoa_1.FormField)()),
+    __param(2, (0, tsoa_1.FormField)()),
+    __param(3, (0, tsoa_1.FormField)()),
+    __param(4, (0, tsoa_1.FormField)()),
+    __param(5, (0, tsoa_1.FormField)()),
+    __param(6, (0, tsoa_1.FormField)()),
+    __param(7, (0, tsoa_1.FormField)()),
+    __param(8, (0, tsoa_1.FormField)()),
+    __param(9, (0, tsoa_1.FormField)()),
+    __param(10, (0, tsoa_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object, String, String, String, String, String, String, String, String, String, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "UpdateProfile", null);
 __decorate([
@@ -170,6 +265,32 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "DeleteUserContrioller", null);
+__decorate([
+    (0, tsoa_1.Post)(useProfile_Route_1.default.PROFILE.ADD_FAVORITE),
+    (0, tsoa_1.Middlewares)((0, authmiddleware_1.authorize)(["seeker"])),
+    __param(0, (0, tsoa_1.Path)()),
+    __param(1, (0, tsoa_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "AddFavorites", null);
+__decorate([
+    (0, tsoa_1.Get)(useProfile_Route_1.default.PROFILE.GET_FAVORITE),
+    (0, tsoa_1.Middlewares)((0, authmiddleware_1.authorize)(["seeker"])),
+    __param(0, (0, tsoa_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "GetFavorite", null);
+__decorate([
+    (0, tsoa_1.Delete)(useProfile_Route_1.default.PROFILE.DELETE_FAVORITE),
+    (0, tsoa_1.Middlewares)((0, authmiddleware_1.authorize)(["seeker"])),
+    __param(0, (0, tsoa_1.Path)()),
+    __param(1, (0, tsoa_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "DeleteFavorites", null);
 exports.UserController = UserController = __decorate([
     (0, tsoa_1.Route)("/v1/users")
 ], UserController);

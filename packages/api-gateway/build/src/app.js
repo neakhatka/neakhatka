@@ -61,9 +61,15 @@ app.disable("x-powered-by");
 // JWT Middleware
 // ===================
 // Conditions array
+// const conditions = [
+//   { path: "/v1/auth" },                 // Exclude all routes starting with /v1/auth
+//   { path: "/v1/jobs", method: "GET" }, // Exclude GET requests starting with /v1/jobs
+//   { path: "/v1/jobs/:id", method: "GET" },
+// ];
 const conditions = [
-    { path: "/v1/auth" }, // Exclude all routes starting with /v1/auth
-    { path: "/v1/jobs", method: "GET" }, // Exclude GET requests starting with /v1/events
+    { path: /^\/v1\/auth/ }, // Exclude all routes starting with /v1/auth
+    { path: /^\/v1\/jobs$/, method: "GET" }, // Exclude GET requests to /v1/jobs
+    { path: /^\/v1\/jobs\/.+/, method: "GET" }, // Exclude all routes starting with /v1/users/ followed by any character
 ];
 app.use((0, unless_route_1.default)(conditions, auth_middleware_1.verifyUser));
 // ===================

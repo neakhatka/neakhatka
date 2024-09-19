@@ -60,7 +60,8 @@
 						"type": "string"
 					},
 					"profile": {
-						"type": "string"
+						"type": "string",
+						"format": "byte"
 					},
 					"fullname": {
 						"type": "string"
@@ -105,42 +106,6 @@
 					"email",
 					"DOB"
 				],
-				"type": "object",
-				"additionalProperties": true
-			},
-			"updateuser": {
-				"properties": {
-					"profile": {
-						"type": "string"
-					},
-					"fullname": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"contactphone": {
-						"type": "string"
-					},
-					"gender": {
-						"type": "string"
-					},
-					"location": {
-						"type": "string"
-					},
-					"DOB": {
-						"type": "string"
-					},
-					"nationality": {
-						"type": "string"
-					},
-					"address": {
-						"type": "string"
-					},
-					"educationbackground": {
-						"type": "string"
-					}
-				},
 				"type": "object",
 				"additionalProperties": true
 			}
@@ -275,9 +240,46 @@
 				"requestBody": {
 					"required": true,
 					"content": {
-						"application/json": {
+						"multipart/form-data": {
 							"schema": {
-								"$ref": "#/components/schemas/updateuser"
+								"type": "object",
+								"properties": {
+									"fullname": {
+										"type": "string"
+									},
+									"email": {
+										"type": "string"
+									},
+									"contactphone": {
+										"type": "string"
+									},
+									"gender": {
+										"type": "string"
+									},
+									"location": {
+										"type": "string"
+									},
+									"DOB": {
+										"type": "string"
+									},
+									"nationality": {
+										"type": "string"
+									},
+									"address": {
+										"type": "string"
+									},
+									"educationbackground": {
+										"type": "string"
+									},
+									"profile": {
+										"type": "string",
+										"format": "binary"
+									}
+								},
+								"required": [
+									"fullname",
+									"email"
+								]
 							}
 						}
 					}
@@ -288,6 +290,109 @@
 				"responses": {
 					"204": {
 						"description": "Successfully Delete  profile",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/v1/users/profile/{jobid}": {
+			"post": {
+				"operationId": "AddFavorites",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "jobid",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteFavorites",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "jobid",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/v1/users/profile/jobs": {
+			"get": {
+				"operationId": "GetFavorite",
+				"responses": {
+					"200": {
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {

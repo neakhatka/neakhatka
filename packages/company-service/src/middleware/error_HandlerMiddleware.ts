@@ -9,7 +9,7 @@ const errorHandler = (
   res: Response,
   _next: NextFunction
 ): Response => {
-  logger.error(`Auth Service errorHandler() method error: ${err}`);
+  logger.error(`Company Service errorHandler() method error: ${err}`);
   // If the error is an instance of our own throw ERROR
   // if (err instanceof BaseCustomError) {
   //   return res.status(err.getStatusCode()).json({errors:err.serializeErrorOutput()});

@@ -3,7 +3,6 @@ import { StatusCode } from "../../util/consts/status.code";
 import { Post } from "../model/post.repo.model";
 import { postcreateschema, postupdateschema } from "./@types/post.repo.type";
 import { logger } from "../../util/logger";
-// import { postcreateschema, postupdateschema } from "./@types/post.repo.type";
 
 class PostJob {
   async Create(postdetail: postcreateschema) {
@@ -33,11 +32,20 @@ class PostJob {
 
   async FindById({ id }: { id: string }) {
     try {
-      const existed = await Post.findById(id);
+      console.log(id);
+      const existed = await Post.findOne({
+        _id: id,
+      });
+      console.log("exist:", existed);
+
+      if (!existed) {
+        throw new Error("Post not found");
+      }
+
       return existed;
     } catch (error) {
       console.log(error);
-      throw new APIError("Unable to That Post Card");
+      throw new APIError("Post not found");
     }
   }
 

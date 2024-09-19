@@ -6,7 +6,7 @@ import { Schema, model,
 const companySchema = new Schema(
   {
     companyname: { type: String, required: true },
-    logo: { type: String, required: false, default: "" },
+    logo: { type: Buffer, required: false, default: "" },
     contactphone: { type: String, required: false, default: 0 },
     contactemail: {
       type: String,
@@ -18,7 +18,7 @@ const companySchema = new Schema(
     websitelink: { type: String, required: false, default: "" },
     location: { type: String, required: false, default: "" },
     contactPerson: { type: String, required: false, default: "" },
-    numberOfemployees: { type: Number, required: false, default: 0 },
+    numberOfemployees: { type:String, required: false, default: 0 },
     address: { type: String, required: false, default: "" },
     companydescription: { type: String, required: false, default: "" },
     userId: { type: String, required: false, default: "" },

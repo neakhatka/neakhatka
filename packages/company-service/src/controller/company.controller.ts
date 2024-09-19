@@ -15,6 +15,8 @@ import {
   Delete,
   Middlewares,
   Request,
+  UploadedFile,
+  FormField,
 } from "tsoa";
 import { StatusCode } from "../util/consts/status.code";
 import { authorize } from "../middleware/auth_middleware";
@@ -97,11 +99,46 @@ export class CompanyController extends Controller {
   @SuccessResponse(StatusCode.Found, "Successfully Update profile")
   @Put(ROUTE_PATHS.COMPANY.UPDATE)
   public async UpdateCompany(
-    // @Path() id: string,
     @Request() req: Express.Request,
-    @Body() update: companyupdateschema
+    @FormField() companyname: string,
+    @FormField() contactphone: string,
+    @FormField() websiteLink: string,
+    @FormField() location: string,
+    @FormField() contactemail: string,
+    @FormField() contactperson: string,
+    @FormField() numberOfemployees: string,
+    @FormField() address: string,
+    @FormField() companydescription: string,
+    @UploadedFile() logo?: Express.Multer.File
   ): Promise<{ message: string; data: any }> {
+    console.log(
+      "Data:",
+      companyname,
+      contactemail,
+      contactperson,
+      numberOfemployees,
+      address,
+      contactphone,
+      location,
+      websiteLink,
+      contactemail,
+      contactperson,
+      companydescription,
+      logo
+    );
     try {
+      const update: companyupdateschema = {
+        logo: logo ? Buffer.from(logo.buffer) : undefined,
+        companyname,
+        contactphone,
+        websiteLink,
+        location,
+        contactemail,
+        contactperson,
+        numberOfemployees,
+        address,
+        companydescription,
+      };
       const authReq = req as unknown as AuthRequest;
       const userId = authReq!.employer!.id;
       console.log("Auth ID:", userId);

@@ -14,7 +14,7 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
+    steps:  
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -56,7 +56,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            mkdir -p /home/ubuntu/packages/company-service/build/configs
+            mkdir -p /home/ubuntu
+            chown ubuntu:ubuntu /home/ubuntu
 
       - name: Copy files to EC2
         uses: appleboy/scp-action@master
@@ -66,7 +67,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           source: "packages/company-service/build/*"
-          target: "/home/ubuntu/packages/company-service/build/"
+          target: "/home/ubuntu"
 
       - name: Create .env file
         uses: appleboy/ssh-action@master
@@ -76,6 +77,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
+            mkdir -p /home/ubuntu/packages/company-service/build/configs
             cat <<EOF > /home/ubuntu/packages/company-service/build/configs/.env
             NODE_ENV=${{ secrets.NODE_ENV }}
             PORT=${{ secrets.PORT }}
@@ -88,6 +90,7 @@ jobs:
             AUTH_SERVICE_URL=${{ secrets.AUTH_SERVICE_URL }}
             COMPANY_SERVICE_URL=${{ secrets.COMPANY_SERVICE_URL }}
             API_GATEWAY=${{ secrets.API_GATEWAY }}
+            MONGODB_URL=${{ secrets.MONGODB_COMPANY_URL }}
             EOF
 
       - name: Start
@@ -103,7 +106,7 @@ jobs:
             cd /home/ubuntu/packages/company-service/build
             echo "Checking directory contents..."
             ls -alh
-            yarn install
+            yarn install --production
             if pm2 show company-service > /dev/null; then
               echo "Application is running. Restarting..."
               yarn restart

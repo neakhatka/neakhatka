@@ -39,7 +39,7 @@ class UserRepository {
   // get profile by id
   async findById({ id }: { id: string }) {
     try {
-      const existedUser = await seeker_profile.findById(id);
+      const existedUser = await seeker_profile.findById(id).exec();
       return existedUser;
     } catch (error) {
       console.log(error);
@@ -106,6 +106,16 @@ class UserRepository {
         throw new APIError("Unable to Delete User in database");
       }
     }
+  }
+  async RemoveFavoriteJob(userId: string, jobid: string) {
+    try {
+      const user = await seeker_profile.findById(userId);
+      if (user) {
+        await user.removeFavorite(jobid);
+      } else {
+        throw new APIError("User does not exist", StatusCode.NotFound);
+      }
+    } catch (error) {}
   }
 }
 

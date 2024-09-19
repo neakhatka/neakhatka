@@ -42,29 +42,46 @@ export class PostJob extends Controller {
       };
     }
   }
-  @Middlewares(authorize(["employer"]))
+
+  // @Middlewares(authorize(["employer"]))
+  // @Get(ROUTE_PATHS.POSTING.GET_BY_ID)
+  // @SuccessResponse(StatusCode.Found, "Post Card Found")
+  // public async GetPost(
+  //   // @Path() companyid: string,
+  //   @Path() id: string,
+  //   @Request() req: Express.Request
+  // ): Promise<{ message: string; data: any }> {
+  //   try {
+  //     const userId = (req as AuthRequest).employer.id;
+  //     console.log("Auth ID:", userId);
+  //     const companyservice = new CompanyService();
+  //     // FIND COMPANY WITH AUTH ID
+  //     const company = await companyservice.FindByAuthId({ userId });
+  //     // FIND COMPANYID IN JOB ()
+  //     const postservice = new PostService();
+  //     const companyId = await postservice.FindByCompanyId(company._id);
+  //     if (companyId) {
+  //       const getcard = await postservice.FindById({ id });
+  //       return { message: "Found!", data: getcard };
+  //     } else {
+  //       return { message: "Not Found!", data: null };
+  //     }
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
+
+  // @Middlewares(authorize(["employer"]))
   @Get(ROUTE_PATHS.POSTING.GET_BY_ID)
   @SuccessResponse(StatusCode.Found, "Post Card Found")
   public async GetPost(
-    // @Path() companyid: string,
-    @Path() id: string,
-    @Request() req: Express.Request
+    @Path() id: string
   ): Promise<{ message: string; data: any }> {
     try {
-      const userId = (req as AuthRequest).employer.id;
-      console.log("Auth ID:", userId);
-      const companyservice = new CompanyService();
-      // FIND COMPANY WITH AUTH ID
-      const company = await companyservice.FindByAuthId({ userId });
-      // FIND COMPANYID IN JOB ()
       const postservice = new PostService();
-      const companyId = await postservice.FindByCompanyId(company._id);
-      if (companyId) {
-        const getcard = await postservice.FindById({ id });
-        return { message: "Found!", data: getcard };
-      } else {
-        return { message: "Not Found!", data: null };
-      }
+      const post = await postservice.FindById({ id });
+
+      return { message: "Success", data: post };
     } catch (error) {
       throw error;
     }

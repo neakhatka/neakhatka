@@ -2,18 +2,15 @@
     "entryFile": "./src/server.ts",
     "controllerPathGlobs": ["./src/controller/**/*.ts"],
     "spec": {
-        "outputDirectory": "public/UserSign",
-      "specVersion": 3,
-      "entryFile": "./src/server.ts"
+      "outputDirectory": "public",
+      "specVersion": 3
     },
     "routes": {
-      "basePath": "/",
       "routesDir": "src/routes/v1"
     },
     "ignore": [
       "**/*.test.ts",
-      "node_modules",
-      "src/mongoose-models/**"
+      "node_modules"
     ]
   }
   

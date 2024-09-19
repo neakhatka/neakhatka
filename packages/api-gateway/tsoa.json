@@ -1,13 +1,14 @@
 {
-    "entryFile": "src/index.ts",
-    "noImplicitAdditionalProperties": "silently-remove-extras",
-    "controllerPathGlobs": ["src/controllers/**/*.ts"],
-    "spec": {
-      "outputDirectory": "dist",
-      "specVersion": 3
-    },
-    "routes": {
-      "routesDir": "dist"
-    }
+  "entryFile": "src/server.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": [
+    "src/controllers/*.controller.ts"
+  ],
+  "spec": {
+    "outputDirectory": "public",
+    "specVersion": 3
+  },
+  "routes": {
+    "routesDir": "src/routes/v1"
   }
-  
+}
