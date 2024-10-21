@@ -80,5 +80,3 @@ services:
       - ./packages/company-service/src:/app/src
     environment:
       - API_GATEWAY=http://gateway-container:4000
-    
-    
