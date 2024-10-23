@@ -15,26 +15,27 @@ export async function createQueueConnection(): Promise<Channel | undefined> {
 
     const channel: Channel = await connection.createChannel();
 
-    logger.info('Nofiication server connected to queue successfully....');
-    closeQueueConnection();
+    logger.info('Notification server connected to queue successfully....');
+
+    // Set up close logic for SIGINT
+    closeQueueConnection(channel, connection);
+
     return channel;
   } catch (error) {
     console.log('Error from notification', error);
     logger.error(
-      `NotificationService createConnection() method error: ${error}`
+      `NotificationService createQueueConnection() method error: ${error}`
     );
     return undefined;
   }
 }
 
-function closeQueueConnection() {
-  process.once(
-    'SIGINT',
-    async (channel: Channel, connection: Connection): Promise<void> => {
-      await channel.close();
-      await connection.close();
-    }
-  );
+function closeQueueConnection(channel: Channel, connection: Connection) {
+  process.once('SIGINT', async () => {
+    await channel.close();
+    await connection.close();
+    logger.info('RabbitMQ connection and channel closed successfully.');
+  });
 }
 
 export async function startQueue(): Promise<void> {

@@ -37,7 +37,6 @@ class UserService {
       if (hashedPassword) {
         newUserParams = { ...newUserParams, password: hashedPassword };
       }
-
       // Step 2
       const authUser = await this.userRepo.CreateUser(newUserParams);
       return authUser;
@@ -54,7 +53,6 @@ class UserService {
             await this.accountVerificationRepo.FindVerificationTokenById({
               id: existedUser!._id as string,
             });
-
           if (!token) {
             logger.error(`UserService Create() method error: token not found!`);
             throw new APIError(
@@ -68,7 +66,6 @@ class UserService {
             verifyLink: `${token.emailVerificationToken}`,
             template: "verifyEmail",
           };
-
           // Publish To Notification Service
           await publishDirectMessage(
             authChannel,
@@ -77,7 +74,6 @@ class UserService {
             JSON.stringify(messageDetails),
             "Verify email message has been sent to notification service"
           );
-
           throw new APIError(
             "A user with this email already exists. Verification email resent.",
             StatusCode.Conflict
@@ -170,8 +166,8 @@ class UserService {
           "http://company-service:4004/v1/companies",
           {
             userId: user._id.toString(),
-            companyname: user.username,
-            contactemail: user.email,
+            companyName: user.username,
+            contactEmail: user.email,
           },
           {
             headers: {
@@ -231,7 +227,7 @@ class UserService {
       }
 
       const isPwdCorrect = await ValidatePassword({
-        enterpassword: UserDetails.password,
+        enterPassword: UserDetails.password,
         savedPassword: user.password as string,
       });
 
@@ -241,10 +237,8 @@ class UserService {
           StatusCode.BadRequest
         );
       }
-
       // Ensure the user object contains a role property
       const userRole = user.role;
-
       return { user, role: userRole };
     } catch (error) {
       throw error;
@@ -283,7 +277,7 @@ class UserService {
     }
   }
 
-  async Findbyid({ id }: { id: string }) {
+  async findById({ id }: { id: string }) {
     try {
       return await this.userRepo.FindUserById({ id });
     } catch (error) {

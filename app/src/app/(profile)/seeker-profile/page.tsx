@@ -3,11 +3,11 @@ import Image from "next/image";
 import { Card, Icon } from "@/components";
 import { Typography } from "../../../components/atoms/Typography";
 import CardList from "@/components/molecules/Card/CardList";
-
 import { Button } from "@/components/ui/button";
 import { DetailCard } from "@/Types/DetailCard";
+import { IUserProfile } from "@/Types/UserProfile";
 
-const seekerProfile = () => {
+const seekerProfile = ({ profile }: { profile: IUserProfile }) => {
   return (
     <>
       <div className="container xl:max-w-[1200px] bg-[#F8F9FA] rounded-xl mt-5 md:mt-10 p-5 md:px-24 md:py-10 mb-10">
@@ -23,10 +23,10 @@ const seekerProfile = () => {
             />
             <div className="ml-4 md:ml-6">
               <Typography className="mb-1 md:mb-2 text-[18px] md:text-[24px]">
-                San Visal
+                {profile.FullName}
               </Typography>
               <Typography className="text-gray-400 text-[12px] md:text-[18px]">
-                sanvisal@gmail.com
+                {profile.email}
               </Typography>
             </div>
           </div>
@@ -42,38 +42,36 @@ const seekerProfile = () => {
           <div className="w-full">
             <div className="my-[25px]">
               <Typography fontSize="lg">Date of Birth</Typography>
-              <Typography>2001/10/13</Typography>
+              <Typography> {profile.dateOfBirth}</Typography>
             </div>
             <div className="my-[25px]">
               <Typography fontSize="lg">Contact Number</Typography>
-              <Typography>0965774927</Typography>
+              <Typography> {profile.contactPhone}</Typography>
             </div>
             <div className="my-[25px]">
               <Typography fontSize="lg">Nationality</Typography>
-              <Typography>Khmer</Typography>
+              <Typography>{profile.nationality}</Typography>
             </div>
             <div className="my-[25px]">
               <Typography fontSize="lg">Gender</Typography>
-              <Typography>Male</Typography>
+              <Typography> {profile.gender}</Typography>
             </div>
           </div>
           <div className="w-full">
             <div className="my-[25px]">
               <Typography fontSize="lg">Location</Typography>
-              <Typography>Phnom Penh</Typography>
+              <Typography>{profile.location}</Typography>
             </div>
             <div className="my-[25px]">
               <Typography fontSize="lg">Address</Typography>
-              <Typography>
-                2972 Westheimer Rd. Santa Ana, Illinois 85486
-              </Typography>
+              <Typography>{profile.address}</Typography>
             </div>
             <div className="my-[25px]">
               <Typography fontSize="lg" className="mb-2">
                 Education Background
               </Typography>
               <Typography className="mb-2">
-                Royal University of Phnom Penh
+                {profile.eductionBackground}
               </Typography>
               <Typography>Preah Sisowath High School</Typography>
             </div>

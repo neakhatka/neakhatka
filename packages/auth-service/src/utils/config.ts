@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import path from "path";
 
-function createconfig(configPath: string) {
+function createConfig(configPath: string) {
   dotenv.config({ path: configPath });
 
   const requiredConfig = [
@@ -33,7 +33,7 @@ const getConfig = (currentEnv: string = "development") => {
     currentEnv === "development"
       ? path.join(__dirname, `../../configs/.env`)
       : path.join(__dirname, `../../configs/.env.${currentEnv}`);
-  return createconfig(configPath);
+  return createConfig(configPath);
 };
 
 export default getConfig;

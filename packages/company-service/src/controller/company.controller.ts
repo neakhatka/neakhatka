@@ -31,7 +31,7 @@ interface AuthRequest extends Request {
 @Route("v1/companies")
 export class CompanyController extends Controller {
   // ===================================================
-  // ============= COMPANY RESOURCE =======================
+  // ============= COMPANY RESOURCE ====================
   // ===================================================
   @SuccessResponse(StatusCode.Found, "Data Found")
   @Get(ROUTE_PATHS.COMPANY.GETALL)
@@ -160,7 +160,6 @@ export class CompanyController extends Controller {
   @SuccessResponse(StatusCode.NoContent, "Successfully Delete  profile")
   @Delete(ROUTE_PATHS.COMPANY.DELETE)
   public async DeleteCompany(
-    // @Path() id: string,
     @Request() req: Express.Request
   ): Promise<{ message: string }> {
     try {
