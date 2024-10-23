@@ -1,6 +1,6 @@
 import {
-  companycreateschema,
-  companyupdateschema,
+  companyCreateSchema,
+  companyUpdateSchema,
 } from "../database/repository/@types/company.repo.type";
 import CompanyService from "../service/company-servive";
 import ROUTE_PATHS from "../routes/v1/company.route";
@@ -28,17 +28,18 @@ interface AuthRequest extends Request {
   };
 }
 
+// ===================================================
+// ============= COMPANY RESOURCE ====================
+// ===================================================
+
 @Route("v1/companies")
 export class CompanyController extends Controller {
-  // ===================================================
-  // ============= COMPANY RESOURCE ====================
-  // ===================================================
   @SuccessResponse(StatusCode.Found, "Data Found")
   @Get(ROUTE_PATHS.COMPANY.GETALL)
   public async GetAll(): Promise<{ message: string; data: any }> {
     try {
-      const companyservice = new CompanyService();
-      const result = await companyservice.GetAll();
+      const companyService = new CompanyService();
+      const result = await companyService.getAll();
       return { message: "Success retrieved!", data: result };
     } catch (error: any) {
       throw {
@@ -59,16 +60,15 @@ export class CompanyController extends Controller {
       const authReq = req as unknown as AuthRequest;
       const userId = authReq!.employer!.id;
       console.log("Auth ID:", userId);
-      const companyservice = new CompanyService();
-      const company = await companyservice.FindByAuthId({ userId });
-      const result = await companyservice.FindById({ id: company._id });
+      const companyService = new CompanyService();
+      const company = await companyService.findByAuthId({ userId });
+      const result = await companyService.findById({ id: company._id });
       if (!result) {
         return { message: "Could not find", data: null };
       }
       return { message: "Company had found ", data: result };
     } catch (error: any) {
       console.log(error);
-      // throw error;
       throw {
         status: StatusCode.NotFound,
         message: "Can not found with that id",
@@ -80,11 +80,11 @@ export class CompanyController extends Controller {
   @SuccessResponse(StatusCode.Created, "Created")
   @Post(ROUTE_PATHS.COMPANY.CREATE)
   public async CreateCompany(
-    @Body() requestBody: companycreateschema
+    @Body() requestBody: companyCreateSchema
   ): Promise<any> {
     try {
-      const company = new CompanyService();
-      const result = await company.Create(requestBody);
+      const companyService = new CompanyService();
+      const result = await companyService.create(requestBody);
       return result;
     } catch (error: any) {
       console.log(error);
@@ -127,7 +127,7 @@ export class CompanyController extends Controller {
       logo
     );
     try {
-      const update: companyupdateschema = {
+      const update: companyUpdateSchema = {
         logo: logo ? Buffer.from(logo.buffer) : undefined,
         companyname,
         contactphone,
@@ -142,17 +142,16 @@ export class CompanyController extends Controller {
       const authReq = req as unknown as AuthRequest;
       const userId = authReq!.employer!.id;
       console.log("Auth ID:", userId);
-      const companyservice = new CompanyService();
-      const company = await companyservice.FindByAuthId({ userId });
-      const result = await companyservice.update({ id: company._id, update });
+      const companyService = new CompanyService();
+      const company = await companyService.findByAuthId({ userId });
+      const result = await companyService.update({ id: company._id, update });
       if (!result) {
         this.setStatus(404);
         return { message: "Profile not found", data: null };
       }
       return { message: "Profile updated", data: result };
     } catch (error: any) {
-      // throw error;
-      this.setStatus(500); // Set HTTP status code to 500 for server errors
+      this.setStatus(500);
       return { message: error.message || "Internal Server Error", data: null };
     }
   }
@@ -166,10 +165,10 @@ export class CompanyController extends Controller {
       const authReq = req as unknown as AuthRequest;
       const userId = authReq!.employer!.id;
       console.log("Auth ID:", userId);
-      const companyservice = new CompanyService();
-      const company = await companyservice.FindByAuthId({ userId });
+      const companyService = new CompanyService();
+      const company = await companyService.findByAuthId({ userId });
       if (company) {
-        await companyservice.Delete({ id: company._id });
+        await companyService.delete({ id: company._id });
         return { message: "profile deleted" };
       } else {
         return { message: "profile not found" };

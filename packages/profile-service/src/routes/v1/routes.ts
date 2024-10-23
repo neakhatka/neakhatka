@@ -3,7 +3,7 @@
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { TsoaRoute, fetchMiddlewares, ExpressTemplateService } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { UserController } from './../../controller/usercontroller/userProfile-Controller';
+import { UserController } from './../../controller/usercontroller/user-Controller';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
 const multer = require('multer');
 const upload = multer({"limits":{"fileSize":8388608}});
@@ -13,7 +13,7 @@ const upload = multer({"limits":{"fileSize":8388608}});
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
-    "createuser": {
+    "createUser": {
         "dataType": "refObject",
         "properties": {
             "authid": {"dataType":"string","required":true},
@@ -68,7 +68,7 @@ export function RegisterRoutes(app: Router) {
 
             async function UserController_CreateUser(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    requestBody: {"in":"body","name":"requestBody","required":true,"ref":"createuser"},
+                    requestBody: {"in":"body","name":"requestBody","required":true,"ref":"createUser"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -94,9 +94,9 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/v1/users',
             ...(fetchMiddlewares<RequestHandler>(UserController)),
-            ...(fetchMiddlewares<RequestHandler>(UserController.prototype.GetAllUserController)),
+            ...(fetchMiddlewares<RequestHandler>(UserController.prototype.getAll)),
 
-            async function UserController_GetAllUserController(request: ExRequest, response: ExResponse, next: any) {
+            async function UserController_getAll(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
             };
 
@@ -109,7 +109,7 @@ export function RegisterRoutes(app: Router) {
                 const controller = new UserController();
 
               await templateService.apiHandler({
-                methodName: 'GetAllUserController',
+                methodName: 'getAll',
                 controller,
                 response,
                 next,
@@ -152,7 +152,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.put('/v1/users/profile',
-            upload.fields([{"name":"profile"}]),
+            upload.fields([{"name":"profile","maxCount":1,"multiple":false}]),
             ...(fetchMiddlewares<RequestHandler>(UserController)),
             ...(fetchMiddlewares<RequestHandler>(UserController.prototype.UpdateProfile)),
 
@@ -194,9 +194,9 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.delete('/v1/users/profile',
             ...(fetchMiddlewares<RequestHandler>(UserController)),
-            ...(fetchMiddlewares<RequestHandler>(UserController.prototype.DeleteUserContrioller)),
+            ...(fetchMiddlewares<RequestHandler>(UserController.prototype.deleteUser)),
 
-            async function UserController_DeleteUserContrioller(request: ExRequest, response: ExResponse, next: any) {
+            async function UserController_deleteUser(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
             };
@@ -210,7 +210,7 @@ export function RegisterRoutes(app: Router) {
                 const controller = new UserController();
 
               await templateService.apiHandler({
-                methodName: 'DeleteUserContrioller',
+                methodName: 'deleteUser',
                 controller,
                 response,
                 next,
@@ -285,9 +285,9 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.delete('/v1/users/profile/:jobid',
             ...(fetchMiddlewares<RequestHandler>(UserController)),
-            ...(fetchMiddlewares<RequestHandler>(UserController.prototype.DeleteFavorites)),
+            ...(fetchMiddlewares<RequestHandler>(UserController.prototype.deleteFavorites)),
 
-            async function UserController_DeleteFavorites(request: ExRequest, response: ExResponse, next: any) {
+            async function UserController_deleteFavorites(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     jobid: {"in":"path","name":"jobid","required":true,"dataType":"string"},
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
@@ -302,7 +302,7 @@ export function RegisterRoutes(app: Router) {
                 const controller = new UserController();
 
               await templateService.apiHandler({
-                methodName: 'DeleteFavorites',
+                methodName: 'deleteFavorites',
                 controller,
                 response,
                 next,

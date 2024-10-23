@@ -7,7 +7,7 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"createuser": {
+			"createUser": {
 				"properties": {
 					"authid": {
 						"type": "string"
@@ -144,14 +144,14 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/createuser"
+								"$ref": "#/components/schemas/createUser"
 							}
 						}
 					}
 				}
 			},
 			"get": {
-				"operationId": "GetAllUserController",
+				"operationId": "GetAll",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -286,7 +286,7 @@
 				}
 			},
 			"delete": {
-				"operationId": "DeleteUserContrioller",
+				"operationId": "DeleteUser",
 				"responses": {
 					"204": {
 						"description": "Successfully Delete  profile",

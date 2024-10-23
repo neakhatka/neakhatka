@@ -1,22 +1,21 @@
-// import { ICompanyDocument } from "../database/model/company.repository.model";
 import APIError from "../database/error/api-error";
 import DuplicateError from "../database/error/duplicate-error";
 import {
   // DeleteCompanyRequest,
-  companycreateschema,
-  companyupdateschema,
+  companyCreateSchema,
+  companyUpdateSchema,
 } from "../database/repository/@types/company.repo.type";
-import CompanyRepo from "../database/repository/company.repository";
+import CompanyRepository from "../database/repository/company.repository";
 
 class CompanyService {
-  private companyrepo: CompanyRepo;
+  private companyRepository: CompanyRepository;
   constructor() {
-    this.companyrepo = new CompanyRepo();
+    this.companyRepository = new CompanyRepository();
   }
 
-  async Create(companydetail: companycreateschema) {
+  async create(companydetail: companyCreateSchema) {
     try {
-      const company = await this.companyrepo.Create(companydetail);
+      const company = await this.companyRepository.create(companydetail);
       return company;
     } catch (error) {
       if (error instanceof DuplicateError) {
@@ -24,55 +23,50 @@ class CompanyService {
       }
     }
   }
-  async GetAll(): Promise<any> {
+  async getAll(): Promise<any> {
     try {
-      return await this.companyrepo.GetAll();
+      return await this.companyRepository.getAll();
     } catch (error) {
       throw new Error("Unable to create user");
     }
   }
-
-  async FindById({ id }: { id: string }) {
+  async findById({ id }: { id: string }) {
     try {
-      return await this.companyrepo.FindById({ id });
+      return await this.companyRepository.findById({ id });
     } catch (error) {
-      // console.log(error);
       throw new APIError("Unable to get user with this ID");
     }
   }
-  async FindByAuthId({ userId }: { userId: string }): Promise<any> {
+  async findByAuthId({ userId }: { userId: string }): Promise<any> {
     try {
-      return await this.companyrepo.FindByAuthID({ userId });
+      return await this.companyRepository.findByAuthID({ userId });
     } catch (error) {
       console.log(error);
       // return null;
       throw new APIError("Unable to get user with this ID");
     }
   }
-
-  async Delete({ id }: { id: string }) {
+  async delete({ id }: { id: string }) {
     try {
-      return await this.companyrepo.Delete({ id });
+      return await this.companyRepository.delete({ id });
     } catch (error: any) {
       console.log("error on service layer", error);
       throw new APIError("Unable to delete User profile");
     }
   }
-
   async update({
     id,
     update,
   }: {
     id: string;
-    update: companyupdateschema;
+    update: companyUpdateSchema;
   }): Promise<any> {
     try {
-      return await this.companyrepo.Update({ id, update });
+      return await this.companyRepository.Update({ id, update });
     } catch (error) {
       // console.log(error);
       throw new APIError("Unable to update User profile!");
     }
   }
 }
-
 export default CompanyService;

@@ -132,7 +132,7 @@
 				"type": "object",
 				"additionalProperties": true
 			},
-			"companycreateschema": {
+			"companyCreateSchema": {
 				"properties": {
 					"companyname": {
 						"type": "string"
@@ -433,7 +433,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/companycreateschema"
+								"$ref": "#/components/schemas/companyCreateSchema"
 							}
 						}
 					}

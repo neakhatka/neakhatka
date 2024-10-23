@@ -3,18 +3,18 @@ import { IUserDocument } from "../../database/@types/user.interface";
 import DuplitcateError from "../../error/duplitcate-error";
 import APIError from "../../error/api-error";
 import {
-  createuser,
-  updateuser,
+  createUser,
+  updateUser,
 } from "../../database/repository/@types/user.repository.type";
 import { logger } from "../../utils/logger";
 export class UserService {
-  private userRepo: UserRepository;
+  private userRepository: UserRepository;
   constructor() {
-    this.userRepo = new UserRepository();
+    this.userRepository = new UserRepository();
   }
-  async CreateUser(UserDetail: createuser) {
+  async createUser(UserDetail: createUser) {
     try {
-      const User = await this.userRepo.createuser(UserDetail);
+      const User = await this.userRepository.createUser(UserDetail);
       return User;
     } catch (error) {
       console.log(error);
@@ -23,55 +23,47 @@ export class UserService {
       }
     }
   }
-
-  async GetAllProfileservice(): Promise<IUserDocument[]> {
+  async getAll(): Promise<IUserDocument[]> {
     try {
-      return await this.userRepo.GetAllUserRepo();
+      return await this.userRepository.getAll();
     } catch (error) {
       throw new APIError("Unable to get user");
     }
   }
-
-  async GetByIdService({ id }: { id: string }) {
+  async getById({ id }: { id: string }) {
     try {
-      return await this.userRepo.findById({ id });
+      return await this.userRepository.findById({ id });
     } catch (error) {
       console.log(error);
       // return null;
       throw new APIError("Unable to get user with this ID");
     }
   }
-  async FindByAuthId({ userId }: { userId: string }): Promise<any> {
+  async getByAuthId({ userId }: { userId: string }): Promise<any> {
     try {
-      return await this.userRepo.FindByAuthID({ userId });
+      return await this.userRepository.findByAuthID({ userId });
     } catch (error) {
       console.log(error);
-      // return null;
       throw new APIError("Unable to get user with this ID");
     }
   }
-
-  // update user
-
-  async UpdateProfileService({
+  async updateUser({
     id,
     update,
   }: {
     id: string;
-    update: updateuser;
+    update: updateUser;
   }): Promise<any> {
     try {
-      return await this.userRepo.UpdateProfile({ id, update });
+      return await this.userRepository.update({ id, update });
     } catch (error) {
-      // throw error;
       throw new APIError("Unable to update User profile!");
     }
   }
-
   // delete user
-  async DeleteProfileService({ id }: { id: string }) {
+  async delete({ id }: { id: string }) {
     try {
-      return await this.userRepo.deleteUser({ id });
+      return await this.userRepository.deleteUser({ id });
     } catch (error) {
       // throw error;
       logger.error(
@@ -84,12 +76,13 @@ export class UserService {
   // =======================
   //  ABOUT FAVORITE JOB
   //======================
-  async AddFavoriteJobPost(
+
+  async addFavoriteJob(
     userId: string,
     jobId: string
   ): Promise<{ message: string; data: any }> {
     try {
-      const user = await this.userRepo.findById({ id: userId });
+      const user = await this.userRepository.findById({ id: userId });
       if (!user) {
         throw new APIError("User not found");
       }
@@ -110,12 +103,12 @@ export class UserService {
     }
   }
   // DELETE FAVORITE JOB
-  async RemovequetJobPost(userId: string, jobId: string) {
+  async removeJobPost(userId: string, jobId: string) {
     try {
-      return await this.userRepo.RemoveFavoriteJob(userId,jobId)
+      return await this.userRepository.removeFavoriteJob(userId, jobId);
     } catch (error) {
-    console.log("error on delete favorite jon in user service:",error)
-    throw new APIError("Unable to remove favorite");
+      console.log("error on delete favorite jon in user service:", error);
+      throw new APIError("Unable to remove favorite");
     }
   }
 }

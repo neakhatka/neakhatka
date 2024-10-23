@@ -1,10 +1,10 @@
 
 
-export interface companycreateschema {
+export interface companyCreateSchema {
   companyname: string;
   contactemail: string;
 }
-  export interface companyupdateschema {
+  export interface companyUpdateSchema {
   companyname?: string;
   logo?: Buffer;
   contactphone?: string;

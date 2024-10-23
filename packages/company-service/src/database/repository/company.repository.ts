@@ -1,23 +1,22 @@
 import { CompanyProfile } from "../model/company.repository.model";
 import {
-  // DeleteCompanyRequest,
-  companycreateschema,
-  companyupdateschema,
+  companyCreateSchema,
+  companyUpdateSchema,
 } from "./@types/company.repo.type";
 import { StatusCode } from "../../util/consts/status.code";
 import APIError from "../error/api-error";
 import DuplicateError from "../error/duplicate-error";
 
-class CompanyRepo {
-  async Create(companydetail: companycreateschema) {
+class CompanyRepository {
+  async create(companyDetail: companyCreateSchema) {
     try {
-      const existedemail = await this.Find_Email({
-        contactEmail: companydetail.contactemail,
+      const existedemail = await this.findByEmail({
+        contactEmail: companyDetail.contactemail,
       });
       if (existedemail) {
         throw new DuplicateError("This email has been used!");
       }
-      const company = new CompanyProfile(companydetail);
+      const company = new CompanyProfile(companyDetail);
       const result = await company.save();
       return result;
     } catch (error) {
@@ -28,13 +27,13 @@ class CompanyRepo {
       throw new Error("Database error");
     }
   }
-  async GetAll(): Promise<any> {
+  async getAll(): Promise<any> {
     try {
-      const allcompany = await CompanyProfile.find();
-      if (!allcompany) {
+      const company = await CompanyProfile.find();
+      if (!company) {
         return { message: "can not user" };
       }
-      return allcompany;
+      return company;
     } catch (error: any) {
       return {
         message: "An error occurred while fetching companies",
@@ -43,52 +42,50 @@ class CompanyRepo {
     }
   }
 
-  async Find_Email({ contactEmail }: { contactEmail: string }): Promise<any> {
+  async findByEmail({ contactEmail }: { contactEmail: string }): Promise<any> {
     try {
-      const existed = await CompanyProfile.findOne({
+      const existedEmail = await CompanyProfile.findOne({
         contactEmail: contactEmail,
       });
-      return existed;
+      return existedEmail;
     } catch (error) {
       throw new APIError("Unable to Find User in Database ");
     }
   }
 
-  async FindByAuthID({ userId }: { userId: string }): Promise<any> {
+  async findByAuthID({ userId }: { userId: string }): Promise<any> {
     try {
-      const existed = await CompanyProfile.findOne({
+      const existedCompany = await CompanyProfile.findOne({
         userId: userId,
       });
-      return existed;
+      return existedCompany;
     } catch (error) {
       throw new APIError("Unable to Find User in Database ");
     }
   }
-
-  async FindById({ id }: { id: string }) {
+  async findById({ id }: { id: string }) {
     try {
       const existed = await CompanyProfile.findById(id);
       return existed;
     } catch (error) {
-      // console.log(error);
       throw new APIError("Unable To Find in Database");
     }
   }
 
-  async Update({ id, update }: { id: string; update: companyupdateschema }) {
+  async Update({ id, update }: { id: string; update: companyUpdateSchema }) {
     try {
-      const existed = await this.FindById({ id });
+      const existed = await this.findById({ id });
       if (!existed) {
         throw new APIError("User does not exist", StatusCode.NotFound);
       }
-      const companyupdate = (await CompanyProfile.findByIdAndUpdate(
+      const updateData = (await CompanyProfile.findByIdAndUpdate(
         id,
         { $set: update },
         {
           new: true,
         }
-      )) as companyupdateschema;
-      return companyupdate;
+      )) as companyUpdateSchema;
+      return updateData;
     } catch (error) {
       if (error instanceof APIError) {
         throw error;
@@ -97,9 +94,9 @@ class CompanyRepo {
     }
   }
 
-  async Delete({ id }: { id: string }) {
+  async delete({ id }: { id: string }) {
     try {
-      const existed = await this.FindById({ id });
+      const existed = await this.findById({ id });
       if (!existed) {
         throw new APIError("Unable to find in database", StatusCode.NoContent);
       }
@@ -109,4 +106,4 @@ class CompanyRepo {
     }
   }
 }
-export default CompanyRepo;
+export default CompanyRepository;

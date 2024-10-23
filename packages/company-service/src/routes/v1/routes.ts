@@ -59,7 +59,7 @@ const models: TsoaRoute.Models = {
         "additionalProperties": true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "companycreateschema": {
+    "companyCreateSchema": {
         "dataType": "refObject",
         "properties": {
             "companyname": {"dataType":"string","required":true},
@@ -326,7 +326,7 @@ export function RegisterRoutes(app: Router) {
 
             async function CompanyController_CreateCompany(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    requestBody: {"in":"body","name":"requestBody","required":true,"ref":"companycreateschema"},
+                    requestBody: {"in":"body","name":"requestBody","required":true,"ref":"companyCreateSchema"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

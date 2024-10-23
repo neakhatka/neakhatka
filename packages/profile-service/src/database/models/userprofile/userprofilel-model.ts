@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 import { IUserDocument } from "../../@types/user.interface";
 
-const userschema: Schema = new Schema(
+const userSchema: Schema = new Schema(
   {
     profile: { type: Buffer, required: false, default: "" },
     authid: { type: String, required: false, default: "" },
@@ -29,10 +29,10 @@ const userschema: Schema = new Schema(
   }
 );
 
-userschema.methods.removeFavorite = function (jobid: string) {
+userSchema.methods.removeFavorite = function (jobid: string) {
   return this.updateOne({ $pull: { favorite: jobid } });
 };
 
-const seeker_profile = model<IUserDocument>("seeker_profile", userschema);
+const seekerProfile = model<IUserDocument>("seekerProfile", userSchema);
 
-export { seeker_profile };
+export { seekerProfile };
