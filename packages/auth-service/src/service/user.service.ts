@@ -166,8 +166,8 @@ class UserService {
           "http://company-service:4004/v1/companies",
           {
             userId: user._id.toString(),
-            companyName: user.username,
-            contactEmail: user.email,
+            companyname: user.username,
+            contactemail: user.email,
           },
           {
             headers: {

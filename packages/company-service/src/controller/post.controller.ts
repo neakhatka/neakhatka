@@ -102,7 +102,7 @@ export class PostJob extends Controller {
       console.log("Authenticated employer ID:", userId); // Log authenticated user ID
       // console.log("Auth ID:", userId);
       const companyservice = new CompanyService();
-      const company = await companyservice.FindByAuthId({ userId });
+      const company = await companyservice.findByAuthId({ userId });
       const companyId = company?.id;
       // console.log("company ID:", companyid);
       // Check if the provided companyid matches the authenticated user's companyId
@@ -139,7 +139,7 @@ export class PostJob extends Controller {
       console.log("Auth ID:", userId);
       const companyservice = new CompanyService();
       // FIND COMPANY WITH AUTH ID
-      const company = await companyservice.FindByAuthId({ userId });
+      const company = await companyservice.findByAuthId({ userId });
       // FIND COMPANYID IN JOB ()
       const postservice = new PostService();
       const companyId = await postservice.FindByCompanyId(company._id);
@@ -170,7 +170,7 @@ export class PostJob extends Controller {
       console.log("Auth ID:", userId);
       const companyservice = new CompanyService();
       // FIND COMPANY WITH AUTH ID
-      const company = await companyservice.FindByAuthId({ userId });
+      const company = await companyservice.findByAuthId({ userId });
       // FIND COMPANYID IN JOB ()
       const postservice = new PostService();
       const companydetail = await postservice.FindByCompanyId(company._id);
@@ -197,7 +197,7 @@ export class PostJob extends Controller {
       console.log("Auth ID:", userId);
       const companyservice = new CompanyService();
       // FIND COMPANY WITH AUTH ID
-      const company = await companyservice.FindByAuthId({ userId });
+      const company = await companyservice.findByAuthId({ userId });
       // FIND COMPANYID IN JOB ()
       const postservice = new PostService();
       // const job = await postservice.FindByCompanyId(company._id);

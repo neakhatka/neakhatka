@@ -96,11 +96,9 @@ export class AuthController extends Controller {
   ): Promise<VerifyEmailResponse> {
     try {
       const userService = new UserService();
-
       // Step 1: Verify email toke
       const user = await userService.VerifyEmailToken({ token });
       console.log("Verified user:", user);
-
       // Step 2.
       // const jwtToken = await generateSignature({userId: user._id});
 

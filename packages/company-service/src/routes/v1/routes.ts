@@ -263,9 +263,9 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/v1/companies',
             ...(fetchMiddlewares<RequestHandler>(CompanyController)),
-            ...(fetchMiddlewares<RequestHandler>(CompanyController.prototype.GetAll)),
+            ...(fetchMiddlewares<RequestHandler>(CompanyController.prototype.getAll)),
 
-            async function CompanyController_GetAll(request: ExRequest, response: ExResponse, next: any) {
+            async function CompanyController_getAll(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
             };
 
@@ -278,7 +278,7 @@ export function RegisterRoutes(app: Router) {
                 const controller = new CompanyController();
 
               await templateService.apiHandler({
-                methodName: 'GetAll',
+                methodName: 'getAll',
                 controller,
                 response,
                 next,
@@ -292,9 +292,9 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/v1/companies/profile',
             ...(fetchMiddlewares<RequestHandler>(CompanyController)),
-            ...(fetchMiddlewares<RequestHandler>(CompanyController.prototype.GetById)),
+            ...(fetchMiddlewares<RequestHandler>(CompanyController.prototype.getById)),
 
-            async function CompanyController_GetById(request: ExRequest, response: ExResponse, next: any) {
+            async function CompanyController_getById(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
             };
@@ -308,7 +308,7 @@ export function RegisterRoutes(app: Router) {
                 const controller = new CompanyController();
 
               await templateService.apiHandler({
-                methodName: 'GetById',
+                methodName: 'getById',
                 controller,
                 response,
                 next,
@@ -322,9 +322,9 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/v1/companies',
             ...(fetchMiddlewares<RequestHandler>(CompanyController)),
-            ...(fetchMiddlewares<RequestHandler>(CompanyController.prototype.CreateCompany)),
+            ...(fetchMiddlewares<RequestHandler>(CompanyController.prototype.createCompany)),
 
-            async function CompanyController_CreateCompany(request: ExRequest, response: ExResponse, next: any) {
+            async function CompanyController_createCompany(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     requestBody: {"in":"body","name":"requestBody","required":true,"ref":"companyCreateSchema"},
             };
@@ -338,7 +338,7 @@ export function RegisterRoutes(app: Router) {
                 const controller = new CompanyController();
 
               await templateService.apiHandler({
-                methodName: 'CreateCompany',
+                methodName: 'createCompany',
                 controller,
                 response,
                 next,
@@ -353,9 +353,9 @@ export function RegisterRoutes(app: Router) {
         app.put('/v1/companies/profile',
             upload.fields([{"name":"logo","maxCount":1,"multiple":false}]),
             ...(fetchMiddlewares<RequestHandler>(CompanyController)),
-            ...(fetchMiddlewares<RequestHandler>(CompanyController.prototype.UpdateCompany)),
+            ...(fetchMiddlewares<RequestHandler>(CompanyController.prototype.updateCompany)),
 
-            async function CompanyController_UpdateCompany(request: ExRequest, response: ExResponse, next: any) {
+            async function CompanyController_updateCompany(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
                     companyname: {"in":"formData","name":"companyname","required":true,"dataType":"string"},
@@ -379,7 +379,7 @@ export function RegisterRoutes(app: Router) {
                 const controller = new CompanyController();
 
               await templateService.apiHandler({
-                methodName: 'UpdateCompany',
+                methodName: 'updateCompany',
                 controller,
                 response,
                 next,
@@ -393,9 +393,9 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.delete('/v1/companies/profile',
             ...(fetchMiddlewares<RequestHandler>(CompanyController)),
-            ...(fetchMiddlewares<RequestHandler>(CompanyController.prototype.DeleteCompany)),
+            ...(fetchMiddlewares<RequestHandler>(CompanyController.prototype.deleteCompany)),
 
-            async function CompanyController_DeleteCompany(request: ExRequest, response: ExResponse, next: any) {
+            async function CompanyController_deleteCompany(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
             };
@@ -409,7 +409,7 @@ export function RegisterRoutes(app: Router) {
                 const controller = new CompanyController();
 
               await templateService.apiHandler({
-                methodName: 'DeleteCompany',
+                methodName: 'deleteCompany',
                 controller,
                 response,
                 next,

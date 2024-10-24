@@ -36,7 +36,7 @@ interface AuthRequest extends Request {
 export class CompanyController extends Controller {
   @SuccessResponse(StatusCode.Found, "Data Found")
   @Get(ROUTE_PATHS.COMPANY.GETALL)
-  public async GetAll(): Promise<{ message: string; data: any }> {
+  public async getAll(): Promise<{ message: string; data: any }> {
     try {
       const companyService = new CompanyService();
       const result = await companyService.getAll();
@@ -52,7 +52,7 @@ export class CompanyController extends Controller {
   @Middlewares(authorize(["employer"]))
   @Get(ROUTE_PATHS.COMPANY.GET_BY_ID)
   @SuccessResponse(StatusCode.OK, "Successfully retrieved profile")
-  public async GetById(
+  public async getById(
     // @Path() id: string,
     @Request() req: Express.Request
   ): Promise<{ message: string; data: any }> {
@@ -79,12 +79,15 @@ export class CompanyController extends Controller {
   // @Middlewares(authorize(["employer"]))
   @SuccessResponse(StatusCode.Created, "Created")
   @Post(ROUTE_PATHS.COMPANY.CREATE)
-  public async CreateCompany(
+  public async createCompany(
     @Body() requestBody: companyCreateSchema
   ): Promise<any> {
     try {
+      console.log("Hello");
+      console.log("data:", requestBody);
       const companyService = new CompanyService();
       const result = await companyService.create(requestBody);
+      console.log("hello");
       return result;
     } catch (error: any) {
       console.log(error);
@@ -98,7 +101,7 @@ export class CompanyController extends Controller {
   @Middlewares(authorize(["employer"]))
   @SuccessResponse(StatusCode.Found, "Successfully Update profile")
   @Put(ROUTE_PATHS.COMPANY.UPDATE)
-  public async UpdateCompany(
+  public async updateCompany(
     @Request() req: Express.Request,
     @FormField() companyname: string,
     @FormField() contactphone: string,
@@ -158,7 +161,7 @@ export class CompanyController extends Controller {
   @Middlewares(authorize(["employer"]))
   @SuccessResponse(StatusCode.NoContent, "Successfully Delete  profile")
   @Delete(ROUTE_PATHS.COMPANY.DELETE)
-  public async DeleteCompany(
+  public async deleteCompany(
     @Request() req: Express.Request
   ): Promise<{ message: string }> {
     try {
