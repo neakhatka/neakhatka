@@ -1,3 +1,4 @@
+// import { Request } from 'express';
 import {
   companyCreateSchema,
   companyUpdateSchema,
@@ -14,12 +15,14 @@ import {
   SuccessResponse,
   Delete,
   Middlewares,
-  Request,
   UploadedFile,
+  Request,
   FormField,
 } from "tsoa";
 import { StatusCode } from "../util/consts/status.code";
 import { authorize } from "../middleware/auth_middleware";
+import { updateCompanyDto } from "./controller.types/company.coontroller.types";
+import CompanyMapper from "../mapper/company.mapper";
 // import { logger } from "../util/logger";
 
 interface AuthRequest extends Request {
@@ -114,50 +117,97 @@ export class CompanyController extends Controller {
     @FormField() companydescription: string,
     @UploadedFile() logo?: Express.Multer.File
   ): Promise<{ message: string; data: any }> {
-    console.log(
-      "Data:",
-      companyname,
-      contactemail,
-      contactperson,
-      numberOfemployees,
-      address,
-      contactphone,
-      location,
-      websiteLink,
-      contactemail,
-      contactperson,
-      companydescription,
-      logo
-    );
     try {
-      const update: companyUpdateSchema = {
-        logo: logo ? Buffer.from(logo.buffer) : undefined,
-        companyname,
-        contactphone,
-        websiteLink,
-        location,
-        contactemail,
-        contactperson,
-        numberOfemployees,
-        address,
-        companydescription,
-      };
       const authReq = req as unknown as AuthRequest;
       const userId = authReq!.employer!.id;
       console.log("Auth ID:", userId);
       const companyService = new CompanyService();
       const company = await companyService.findByAuthId({ userId });
-      const result = await companyService.update({ id: company._id, update });
-      if (!result) {
+      if (!company) {
         this.setStatus(404);
         return { message: "Profile not found", data: null };
       }
+      const logoUrl = logo || company.logo;
+      const updatePayload = CompanyMapper.toUpdatePayload(
+        {
+          companyname,
+          contactphone,
+          websiteLink,
+          location,
+          contactemail,
+          contactperson,
+          numberOfemployees,
+          address,
+          companydescription,
+        },
+        logoUrl
+      );
+      const result = await companyService.update({
+        id: company._id,
+        update: updatePayload,
+      });
+      if (!result) {
+        this.setStatus(404);
+        return { message: "Update fails", data: null };
+      }
       return { message: "Profile updated", data: result };
     } catch (error: any) {
-      this.setStatus(500);
-      return { message: error.message || "Internal Server Error", data: null };
+      // this.setStatus(500);
+      // return { message: error.message || "Internal Server Error", data: null };
+      throw {
+        status: StatusCode.BadRequest,
+        message: "Can not update that company!",
+        detail: error.message,
+      };
     }
   }
+  // public async updateCompany(
+  //   @Request() req: Express.Request,
+  //   @UploadedFile() logo?: Express.Multer.File
+  // ): Promise<{ message: string; data: any }> {
+  //   try {
+  //     const authReq = req as unknown as AuthRequest;
+  //     const userId = authReq?.employer?.id;
+  //     if (!userId) {
+  //       this.setStatus(401);
+  //       return { message: "Unauthorized", data: null };
+  //     }
+  //     console.log("Auth ID", userId);
+  //     const companyService = new CompanyService();
+  //     const company = await companyService.findByAuthId({ userId });
+
+  //     if (!company) {
+  //       this.setStatus(404);
+  //       return { message: "Profile not found", data: null };
+  //     }
+  //     const formData: updateCompanyDto = req.body as updateCompanyDto;
+  //     const logoUrl = logo || company.logo;
+  //     const updatePayload = CompanyMapper.toUpdatePayload(
+  //       {
+  //         ...formData, // Spread the form data into the update payload
+  //       },
+  //       logoUrl
+  //     );
+  //     const result = await companyService.update({
+  //       id: company._id,
+  //       update: updatePayload,
+  //     });
+
+  //     if (!result) {
+  //       this.setStatus(500);
+  //       return { message: "Update failed", data: null };
+  //     }
+
+  //     return { message: "Profile updated", data: result };
+  //   } catch (error: any) {
+  //     throw {
+  //       status: StatusCode.BadRequest,
+  //       message: "Can not update that company!",
+  //       detail: error.message,
+  //     };
+  //   }
+  // }
+
   @Middlewares(authorize(["employer"]))
   @SuccessResponse(StatusCode.NoContent, "Successfully Delete  profile")
   @Delete(ROUTE_PATHS.COMPANY.DELETE)
