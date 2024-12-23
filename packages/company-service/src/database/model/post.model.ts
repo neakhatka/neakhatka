@@ -1,4 +1,3 @@
-
 import mongoose, { Schema, model } from "mongoose";
 
 const postingSchema: Schema = new Schema(
@@ -8,10 +7,10 @@ const postingSchema: Schema = new Schema(
       ref: "companymodels",
       required: false,
     },
-    logo:{ type: String, required: false, default:"" },
+    logo: { type: String, required: false, default: "" },
     companyName: { type: String, required: false },
     workplace: { type: String, required: false },
-    position:{type :String , required: false},
+    position: { type: String, required: false },
     location: { type: String, required: false },
     jobDescription: { type: [String], required: false, default: [] },
     jobResponsibilities: { type: [String], required: false, default: [] },
@@ -40,5 +39,4 @@ const postingSchema: Schema = new Schema(
 );
 
 const Post = model("Post", postingSchema);
-
 export { Post };

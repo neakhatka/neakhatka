@@ -1,3 +1,4 @@
+version: "3.9"
 services:
   rabbitmq:
     container_name: rabbitmq_container
@@ -16,7 +17,9 @@ services:
       retries: 5
   api-gateway:
     container_name: gateway-container
-    image: sanvisal/api-gateway
+    build:
+      context: ./packages/api-gateway
+      dockerfile: Dockerfile.dev
     restart: always
     ports:
       - "4000:4000"
@@ -29,10 +32,12 @@ services:
     volumes:
       - ./packages/api-gateway/src:/app/src
     depends_on:
-      - profile-service
+      - profile-service  # Add this line
   auth-service:
     container_name: auth-container
-    image: sanvisal/auht-service
+    build:
+      context: ./packages/auth-service
+      dockerfile: Dockerfile.dev
     restart: always
     ports:
       - "4001:4001"
@@ -47,7 +52,9 @@ services:
 
   notification:
     container_name: notification-container
-    image: sanvisal/notification
+    build:
+      context: ./packages/notification
+      dockerfile: Dockerfile.dev
     restart: always
     ports:
       - "4002:4002"
@@ -60,7 +67,9 @@ services:
 
   profile-service:
     container_name: profile-container
-    image: sanvisal/profile-service
+    build:
+      context: ./packages/profile-service
+      dockerfile: Dockerfile.dev
     restart: always
     ports:
       - "4003:4003"
@@ -71,7 +80,9 @@ services:
       - API_GATEWAY=http://gateway-container:4000
   company-service:
     container_name: company-container
-    image: sanvisal/company-service
+    build:
+      context: ./packages/company-service
+      dockerfile: Dockerfile.dev
     restart: always
     ports:
       - "4004:4004"
@@ -80,3 +91,7 @@ services:
       - ./packages/company-service/src:/app/src
     environment:
       - API_GATEWAY=http://gateway-container:4000
+networks:
+  default:
+    driver: bridge
+    

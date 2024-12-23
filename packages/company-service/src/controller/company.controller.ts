@@ -1,7 +1,7 @@
 // import { Request } from 'express';
 import {
   companyCreateSchema,
-  companyUpdateSchema,
+  // companyUpdateSchema,
 } from "../database/repository/@types/company.repo.type";
 import CompanyService from "../service/company-servive";
 import ROUTE_PATHS from "../routes/v1/company.route";
@@ -21,7 +21,7 @@ import {
 } from "tsoa";
 import { StatusCode } from "../util/consts/status.code";
 import { authorize } from "../middleware/auth_middleware";
-import { updateCompanyDto } from "./controller.types/company.coontroller.types";
+// import { updateCompanyDto } from "./controller.types/company.coontroller.types";
 import CompanyMapper from "../mapper/company.mapper";
 // import { logger } from "../util/logger";
 
@@ -90,10 +90,9 @@ export class CompanyController extends Controller {
       console.log("data:", requestBody);
       const companyService = new CompanyService();
       const result = await companyService.create(requestBody);
-      console.log("hello");
       return result;
     } catch (error: any) {
-      console.log(error);
+      console.log("on controller:", error);
       throw {
         status: StatusCode.BadRequest,
         message: "Can not create that User!",
@@ -118,6 +117,7 @@ export class CompanyController extends Controller {
     @UploadedFile() logo?: Express.Multer.File
   ): Promise<{ message: string; data: any }> {
     try {
+      console.log("heelo");
       const authReq = req as unknown as AuthRequest;
       const userId = authReq!.employer!.id;
       console.log("Auth ID:", userId);

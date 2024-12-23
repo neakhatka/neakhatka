@@ -1,5 +1,5 @@
 import APIError from "../database/error/api-error";
-import { Post } from "../database/model/post.repo.model";
+import { Post } from "../database/model/post.model";
 import {
   postcreateschema,
   postupdateschema,
