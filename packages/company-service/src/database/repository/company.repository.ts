@@ -1,4 +1,4 @@
-import { CompanyProfile } from "../model/company.repository.model";
+import { CompanyProfile } from "../model/company.model";
 import {
   companyCreateSchema,
   companyUpdateSchema,

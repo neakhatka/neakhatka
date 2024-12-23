@@ -8,7 +8,7 @@ const errorHandler = (
   _req: Request,
   res: Response,
   _next: NextFunction
-): Response => {
+): void => {
   logger.error(`Auth Service - errorHandler():  ${err}`);
 
   if (err instanceof AggregateError) {
@@ -19,17 +19,13 @@ const errorHandler = (
 
   // If the error is an instance of our own throw ERROR
   if (err instanceof BaseCustomError) {
-    return res
-      .status(err.getStatusCode())
-      .json({ errors: err.serializeErrors() });
+    res.status(err.getStatusCode()).json({ errors: err.serializeErrors() });
+    return;
   }
 
-  return (
-    res
-      .status(StatusCode.InternalServerError)
-      //.json({ errors: [{ message: "An unexpected error occurred" }] });
-      .json({ message: err })
-  );
+  res.status(StatusCode.InternalServerError).json({
+    message: err.message || "An unexpected error occurred",
+  });
 };
 
 export { errorHandler };

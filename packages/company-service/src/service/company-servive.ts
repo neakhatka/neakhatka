@@ -1,7 +1,5 @@
 import APIError from "../database/error/api-error";
-import DuplicateError from "../database/error/duplicate-error";
 import {
-  // DeleteCompanyRequest,
   companyCreateSchema,
   companyUpdateSchema,
 } from "../database/repository/@types/company.repo.type";
@@ -18,9 +16,7 @@ class CompanyService {
       const company = await this.companyRepository.create(companydetail);
       return company;
     } catch (error) {
-      if (error instanceof DuplicateError) {
-        throw new Error("Unable to create user");
-      }
+      throw new Error("Unable to create user from service");
     }
   }
   async getAll(): Promise<any> {

@@ -1,6 +1,6 @@
 import APIError from "../error/api-error";
 import { StatusCode } from "../../util/consts/status.code";
-import { Post } from "../model/post.repo.model";
+import { Post } from "../model/post.model";
 import { postcreateschema, postupdateschema } from "./@types/post.repo.type";
 import { logger } from "../../util/logger";
 
